@@ -1,0 +1,30 @@
+System configuration: changes for jenkins System
+    1. configure System 
+        master jenkins setup, Global properties(Tools locations, Env Variables),
+        Adding Shared libraries, Email configuration, Git plugin configuration, 
+    2. Global Tool configuration: To setup different tools in jenkins
+        a. Maven configuration
+        b. JDK
+        c. Git, Gradle,Ant 
+    3. Manage plugins: To Add, remove, update, Disable, Enable plugins 
+    4. Manage Nodes and clouds: To Add Agents/Slaves to master for distributed System
+
+Security: Security configurations for jenkins
+    1. configure Global Security
+        a. Authentication: To setup to store security/user data in own or LDAP server.
+        b. Authrization: To setup Matrix, project,Role based security
+    2. Manage credientials:
+        a. To manage credientials in jenkins
+    3. configure credientials provider: To limit the credientials provider details
+    4. Manage users: To manage users
+    5. In process script approval: 
+Status information:
+    System information(plugins installed, Java)
+    System Log:
+Trouble shooting:
+Tools and Actions:
+    Reload configuration from disk:
+    Jenkins CLI 
+    script consoole:
+    Backup
+    Prepeare for shutdown:
