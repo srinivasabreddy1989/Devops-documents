@@ -31,22 +31,23 @@ pipeline {
         }
   
     // Building Docker images
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+    stage('Docker Build') {
+            steps {
+                sh "docker build . -t ${REPOSITORY_URI}:${get_commit_id()}"
+            }
         }
-      }
-    }
    
     // Uploading Docker images into AWS ECR
-    stage('Pushing to ECR') {
-     steps{  
-         script {
-                sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
-                sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
-         }
+    stage('Docker push') {
+        steps {
+            sh "docker push ${REPOSITORY_URI}:${get_commit_id()}"
+            // cleanup docker images in jenkins
+            sh "docker system prune --all --force"
         }
-      }
     }
+    }
+}
+def get_commit_id(){
+    id = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+    return id
 }
