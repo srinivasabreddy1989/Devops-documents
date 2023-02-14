@@ -1,0 +1,24 @@
+Docker Security Practices
+    1. Keep the Host System and Docker Software Update
+    2. Use Official, Verified Docker Images from Trusted Sources
+    3. Run Containers as Non-Root Users
+    4. Limit the number of Open Ports on a Container
+    5. Use Encrypted Environment Variables and Docker Secrets
+    6. Monitor the host and container logs:
+    7. Use Network Segmentation and Firewalls
+    8. Enable Security Features
+    9. Regularly Assess and Validate the Security Posture
+
+Docker consists of three Main Components:
+    1.Docker Daemon
+    2. Docker Client
+    3. Docker Registry.
+
+Docker network: by default it contains 3 networks
+    1. Bridge: it is default network used by any containers. 
+    2. Host:  when you don’t want the containers to have any network isolation.
+    3. None is when your container can have no networking.
+
+creating of own network:
+    docker network create learn-networking 
+

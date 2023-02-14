@@ -27,7 +27,7 @@ pipeline {
         stage('Git package') {
             steps {
                 sh 'mvn clean package'
-            }
+            }   
         }
   
     // Building Docker images
