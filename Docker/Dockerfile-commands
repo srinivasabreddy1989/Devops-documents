@@ -1,0 +1,17 @@
+Docker Image: A Docker Image is a read-only file with a bunch of instructions. When these instructions are executed, it creates a Docker container.
+Dockerfile: Dockerfile is a simple text file that consists of instructions to build Docker images.
+Dockerfile is a set of instructions that creates a stacked-layer for each instruction that collectively makes an image
+
+Dockerfile commands
+    FROM: Defines a base image, it can be pulled from docker hub
+    RUN: Executes command in a new image layer
+    CMD: Command to be executed when running a container
+    ENTRYPOINT: Define a container's executable
+    ADD: It is more feature-rich version of the COPY instruction. 
+    ENV: Sets environment variables inside the image
+    MAINTAINER: which defines the author who is creating this Dockerfile
+    EXPOSE: EXPOSE statement maps a port into the container
+    COPY - It is used to copy your local files/directories to Docker Image
+    VOLUME: The VOLUME statement defines shared volumes or ephemeral volumes
+    WORKDIR : Defines the working directory for subsequent instructions in the Dockerfile
+    USER: It sets which user’s container will run as.
