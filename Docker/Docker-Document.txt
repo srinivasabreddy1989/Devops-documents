@@ -22,3 +22,66 @@ Docker network: by default it contains 3 networks
 creating of own network:
     docker network create learn-networking 
 
+Docker storage(Volume):
+    By default all files created inside a container are stored on a writable container layer.
+    Docker has two options for containers to store files on the host machine, so that the files are persisted even after the container stops: 
+        volumes, and bind mounts.
+        Volumes: are stored in a part of the host filesystem which is managed by Docker
+        Bind mounts: may be stored anywhere on the host system.
+        tmpfs: mounts are stored in the host system’s memory only
+
+volumes:
+    Choose the -v or --mount flag
+    Create a volume:
+        docker volume create my-vol
+    Inspect a volume:
+        docker volume inspect my-vol
+    Remove a volume:
+        docker volume rm my-vol
+    Start a container with a volume:
+        docker run -d  --name devtest  --mount source=myvol2,target=/app  nginx:latest
+
+Docker storage drivers
+    overlay2:
+    fuse-overlayfs:
+    btrfs and zfs	
+
+Networking:
+    Network drivers:
+        bridge: The default network driver. If you don’t specify a driver, this is the type of network you are creating.
+        host: 
+        overlay: Overlay networks connect multiple Docker daemons together and enable swarm services to communicate with each other.
+        none: For this container, disable all networking.
+    Bridge network: User-defined bridges provide automatic DNS resolution between containers.
+        --link --> when containers running on different networks 
+        To create a network:  docker network create my-net
+
+Docker engine:
+--------------
+    Start with systemd:
+        sudo systemctl start docker
+    Start the daemon manually:
+        dockerd
+    stop Docker
+        Ctrl+C
+Prune unused Docker objects
+    Prune images: docker image prune -a 
+    Prune containers: docker container prune
+                        WARNING! This will remove all stopped containers.
+    Prune volumes: docker volume prune
+                    WARNING! This will remove all volumes not used by at least one container.
+    Prune networks: docker network prune
+    Prune everything: docker system prune
+
+Vulnerability scanning for Docker local images:
+
+Read the daemon logs
+    Linux: Use the command journalctl -xu docker.service (or read /var/log/syslog or /var/log/messages, depending on your Linux Distribution)
+
+Docker security:
+    Kernel namespaces:
+
+Docker-compose:
+---------------
+    Compose is a tool for defining and running multi-container Docker applications.
+

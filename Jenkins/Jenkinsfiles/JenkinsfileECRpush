@@ -27,7 +27,7 @@ pipeline {
         stage('Git package') {
             steps {
                 sh 'mvn clean package'
-            }   
+            }
         }
   
     // Building Docker images
@@ -41,23 +41,10 @@ pipeline {
     stage('Docker push') {
         steps {
             sh "docker push ${REPOSITORY_URI}:${get_commit_id()}"
-            // cleanup docker images in jenkins
             sh "docker system prune --all --force"
         }
     }
     }
-    post {
-        success {
-            emailext to: "srinivasa20071989@gmail.com",
-            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
-  }
-  failure {
-    emailext to: "srinivasa20071989@gmail.com",
-    subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
-  }
-}
 }
 def get_commit_id(){
     id = sh returnStdout: true, script: 'git rev-parse --short HEAD'
