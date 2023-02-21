@@ -23,16 +23,27 @@ pipeline {
             }
         }
     }
+    // sending email notifications for success and failure
     post {
         success {
             emailext to: "srinivasa20071989@gmail.com",
             subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
             body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
   }
-  failure {
-    emailext to: "srinivasa20071989@gmail.com",
-    subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
-    body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
-  }
-}
+        failure {
+            emailext to: "srinivasa20071989@gmail.com",
+            subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
+            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}"
+        }
+    }
+    // Slack notification for success and failure
+    post {
+        success {
+            slackSend channel: '#czv', color: 'green', failOnError: true, message: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}", tokenCredentialId: 'slack-token'
+    }
+        failure {
+            slackSend channel: '#czv', color: 'red', failOnError: true, message: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}", tokenCredentialId: 'slack-token'
+        }
+    }
+
 }
