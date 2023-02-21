@@ -1,0 +1,45 @@
+pre-requisite:
+    Hardware requirments: 3GB RAM, Disk space depending on project
+        Linux: vm.max_map_count <= 524288
+                    sysctl -w vm.max_map_count=524288
+               fs.file-max >= 131072  --> sysctl fs.file-max
+                            sysctl -w fs.file-max=131072
+               at least 131072 file descriptors ---> ulimit -n
+                                ulimit -n 131072
+               open at least 8192 threads ---> ulimit -u
+                                ulimit -u value
+    To set this values permanently u need to set into 
+        /etc/sysctl.d/99-sonarqube.conf /etc/sysctl.conf 
+    Software: Java 17
+              Database: postgreSQL 11 onwards
+                          MSSQL 2014 onwards
+                          oracle
+              webbrowser: Latest
+
+    To deactivate seccomp filter 
+        sonar.search.javaAdditionalOpts=-Dbootstrap.system_call_filter=false
+Sonar installation:
+    1. Install database create user and DB and give read or full permissions
+    2. Download files from sonarqube official website and unzip
+    3. change database settings in sonar.properties
+    4. Start a sonarqube
+
+Upgrade a sonar:
+
+Troubleshooting
+    Checking the logs:
+        You'll find them in <SONARQUBE_HOME>/logs
+        1. sonar.log: Log for the main process. Holds general information about startup and shutdown. You'll get overall status here but not details.
+        2. web.log: Information about initial connection to the database, database migration and reindexing, and the processing of HTTP requests.
+        3. ce.log: Information about background task processing and the database and search engine logs related to those tasks.
+        4. es.log: Ops information from the search engine, such as Elasticsearch startup, health status changes
+
+Jenkins extension for SonarQube
+    1. sonarscanner
+    2. sonarscanner for maven
+    3. sonarscanner for gradle
+
+Test coverage:
+--------------
+you need to use third-party tool
+
