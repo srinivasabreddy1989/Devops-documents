@@ -1,0 +1,131 @@
+Kubernetes:
+------------
+Latest version v1.26
+
+Why you need Kubernetes and what it can do 
+    Service discovery and load balancing: 
+    Storage orchestration:
+    Automated rollouts and rollbacks:
+    Automatic bin packing :
+    Self-healing:
+    Secret and configuration management:
+
+Kubernetes Components:
+-----------------------
+Control plane: The control plane manages the worker nodes and the Pods in the cluster
+    kube-apiserver: The API server is the front end for the Kubernetes control plane.
+    etcd: Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data.
+    kube-scheduler: 
+    kube-controller-manager: 
+Worker Nodes: 
+    kubelet: An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod
+    kube-proxy: kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept.
+    Container runtime:  containerd, CRI-O
+
+Addons: 
+    DNS: 
+    Web UI (Dashboard): 
+    Container Resource Monitoring: 
+    Cluster-level Logging: 
+
+Understanding Kubernetes Objects:
+    Object spec and status:
+Kubernetes Object management:
+    Imperative commands: operates on Live objects its have direct single commands.
+    Imperative object configuration: Individual files	
+    Declarative object configuration: Directories of files
+Labels:
+Label selectors: 
+Namespaces: In Kubernetes, namespaces provides a mechanism for isolating groups of resources within a single cluster.
+    Initial Namespaces:
+        default:
+        kube-node-lease: This namespace holds Lease objects associated with each node.
+        kube-public: This namespace is readable by all clients
+        kube-system: The namespace for objects created by the Kubernetes system.
+namespaced Objects:
+cluster-wide objects: 
+
+Annotations: You can use either labels or annotations to attach metadata to Kubernetes objects.
+Nodes: 
+Management: 
+    1. The kubelet on a node self-registers to the control plane
+    2. You (or another human user) manually add a Node object
+
+Communication between Nodes and the Control plane:
+Node to Control plane:
+Control plane to Nodes:
+    There are two primary communication paths from the control plane (the API server) to the nodes.
+    1. API server's proxy functionality
+    2. API server to the kubelet process
+        it is used for
+        Fetching logs for pods.
+        Providing the kubelet's port-forwarding functionality.
+        Attaching (usually through kubectl) to running pods.
+By default it will not validate the certificate, These connections are not currently safe to run over untrusted or public networks.
+instead of this we can use:
+    SSH tunnels: Kubernetes supports SSH tunnels to protect the control plane to nodes communication paths.
+                Note: SSH tunnels are currently deprecated, so you shouldn't opt to use them unless you know what you are doing. The Konnectivity service is a replacement for this communication channel.
+    Konnectivity service: 
+
+controllers:
+Leases:
+cgroup: The kubelet and the underlying container runtime need to interface with cgroups to enforce resource management for pods and containers which includes cpu/memory requests and limits for containerized workloads.
+Container Runtime Interface (CRI): The CRI is a plugin interface which enables the kubelet to use a wide variety of container runtimes, without having a need to recompile the cluster components.
+Garbage Collection: Garbage collection is a collective term for the various mechanisms Kubernetes uses to clean up cluster resources.
+ImagePullBackOff: The status ImagePullBackOff means that a container could not start because Kubernetes could not pull a container image
+Using a private registry: 
+    Configuring Nodes to Authenticate to a Private Registry:
+    Kubelet Credential Provider to dynamically fetch credentials for private registries:
+    Pre-pulled Images:
+    Specifying ImagePullSecrets on a Pod:
+Runtime Class: 
+Container hooks:
+    PostStart:
+    PreStop: 
+pods: Pods are the smallest deployable units of computing that you can create and manage in Kubernetes.
+    Pods in a Kubernetes cluster are used in two main ways:
+        Pods that run a single container.
+        Pods that run multiple containers that need to work together.
+    Pods that run multiple containers that need to work together:
+    init containers and app containers.
+    Pod Lifecycle:(phase) Pending: The Pod has been accepted by the Kubernetes cluster, but one or more of the containers has not been set up and made ready to run.
+        Running: The Pod has been bound to a node, and all of the containers have been created. 
+        Succeeded: All containers in the Pod have terminated in success, and will not be restarted.
+        Failed: All containers in the Pod have terminated, and at least one container has terminated in failure.
+        Unknown: For some reason the state of the Pod could not be obtained.
+     container states:
+        Waiting: 
+        Running: The Running status indicates that a container is executing without issues.
+        Terminated: 
+    Container restart policy:
+        Always:
+        OnFailure:
+        Never:
+    Pod conditions:
+        PodScheduled: 
+        PodHasNetwork:
+        ContainersReady: 
+        Initialized: all init containers have completed successfully
+        Ready: ready to serve requests
+    Container probes:
+        There are four different ways to check a container using a probes:
+                exec: Executes a specified command inside the container. The diagnostic is considered successful if the command exits with a status code of 0.
+                grpc: Performs a remote procedure call using gRPC. 
+                SERVING: 
+                httpGet: Performs an HTTP GET request against the Pod's IP address on a specified port and path.
+                tcpsocket: Performs a TCP check against the Pod's IP address on a specified port. 
+            Types of probes: 
+                livenessProbe: Indicates whether the container is running.
+                readinessProbe: Indicates whether the container is ready to respond to requests.
+                startupProbe: Indicates whether the application within the container is started.
+            When should you use a liveness probes:
+                If the process in your container is able to crash on its own whenever it encounters an issue or becomes unhealthy
+            When should you use a readiness probes:
+                If you'd like to start sending traffic to a Pod only when a probe succeeds, specify a readiness probe.
+            When should you use a startup probes:
+                Startup probes are useful for Pods that have containers that take a long time to come into service.
+init containers: 
+Ephemeral containers: you can run an ephemeral container in an existing Pod to inspect its state and run arbitrary commands.
+
+Workload resources:
+    Deploments: A Deployment provides declarative updates for Pods and ReplicaSets.
