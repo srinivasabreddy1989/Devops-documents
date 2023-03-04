@@ -129,3 +129,36 @@ Ephemeral containers: you can run an ephemeral container in an existing Pod to i
 
 Workload resources:
     Deploments: A Deployment provides declarative updates for Pods and ReplicaSets.
+    Replicaset: A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time.
+    statefulset: StatefulSet is the workload API object used to manage stateful applications.
+        provides guarantees about the ordering and uniqueness of these Pods.
+    Cronjob: A CronJob creates Jobs on a repeating schedule.
+    Replicationcontroller: 
+Service, Loadbalancing and Networking:
+    Service: In Kubernetes, a Service is a method for exposing a network application that is running as one or more Pods in your cluster.
+        Services without selectors:
+        Headless Services: 
+    Publishing Services (ServiceTypes):
+        ClusterIp:
+        NodePort: 
+        LoadBalancer:
+        External Name: 
+    Ingress: Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster.
+    Ingress controllers: 
+    EndpointSlices: Kubernetes' EndpointSlice API provides a way to track network endpoints within a Kubernetes cluster.
+
+Volumes:
+    Types of Volumes:
+        1. awsElasticBlockStore: (deprecated)
+        2. azureDisk: (deprecated)
+        3. azureFile: (deprecated)
+        4. Cinder: (deprecated)
+        5. configMap: 
+        6. DownwardAPI: 
+        7. emptyDir: 
+        8. persistentVolume:
+            persistentVolumeclaim:
+    PV and PVC:
+ConfigMaps: A ConfigMap is an API object used to store non-confidential data in key-value pairs.
+Secrets: A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key.
+

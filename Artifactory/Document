@@ -1,0 +1,10 @@
+version: 3.47.1
+
+different Nexus Architecture configurations we can do
+    1. Single node cloud resilient Deployment using Aws/Azure
+    2. Single data centre on-premises deployment
+    3. High availability clustering
+        1. Configuring nodes
+        2. Configuring Hazlecast
+        3. Designing your cluster backup and restore process
+        4. Initial setup for High availability cluster
