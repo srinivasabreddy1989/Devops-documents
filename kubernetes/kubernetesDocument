@@ -162,3 +162,37 @@ Volumes:
 ConfigMaps: A ConfigMap is an API object used to store non-confidential data in key-value pairs.
 Secrets: A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key.
 
+Service Accounts: A service account is a type of non-human account that, in Kubernetes, provides a distinct identity in a Kubernetes cluster.
+
+Taints and tollerations: Taints are the opposite -- they allow a node to repel a set of pods.
+    Tolerations allow the scheduler to schedule pods with matching taints.
+priority and preemption of pods:
+
+Cluster Administration:
+    Securing a cluster: Generate certificate
+                        controll Access to the Kubernetes API 
+                        Authenticating
+                        Authorization
+                        Using Admission controllers
+                        Auditing
+Canary deployments: 
+
+Tools needs to install in Kubernetes:
+    1. Install kubectl: 
+Network policy Providers:
+    1. Antrea
+    2. Calico
+    3. cilium
+    4. kube-router
+    5. Romana 
+    6. Weave net 
+The Kubernetes autoscaling mechanism uses two layers:
+
+Pod-based scaling: supported by the Horizontal Pod Autoscaler (HPA) and the newer Vertical Pod Autoscaler (VPA).
+Node-based scaling: supported by the Cluster Autoscaler
+
+Cluster Autoscalling:  To scale nodes based on pod pending status 
+HPA and VPA: To scale pods 
+
+Monitor Node Health: Node Problem Detector
+crictl: crictl is a command-line interface for CRI-compatible container runtimes. You can use it to inspect and debug container runtimes and applications on a Kubernetes node.
