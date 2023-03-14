@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    environment {
+        // This can be nexus3 or nexus2
+        NEXUS_VERSION = "nexus3"
+        // This can be http or https
+        NEXUS_PROTOCOL = "http"
+        // Where your Nexus is running
+        NEXUS_URL = "172.31.31.242:8081"
+        // Repository where we will upload the artifact
+        NEXUS_REPOSITORY = "java-artifacts"
+        // Jenkins credential id to authenticate to Nexus OSS
+        NEXUS_CREDENTIAL_ID = "nexus"
+    }
+   
+    stages {
+        stage('Cloning Git') {
+            steps {
+              git branch: 'main', credentialsId: 'git-creds', url: 'https://github.com/srinivasabreddy1989/hiring.git'
+            }
+        }
+        stage('Git package') {
+            steps {
+                sh 'mvn clean package'
+            }   
+        }
+  
+    // Building Docker images
+    stage('Docker Build') {
+            steps {
+                sh "docker build . -t ${NEXUS_URL}/${NEXUS_REPOSITORY}/${NEXUS_VERSION}:${get_commit_id()}"
+            }
+        }
+    stage('Docker login') {
+    	agent any
+      steps {
+      	withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push shanem/spring-petclinic:latest'
+        }
+      }
+   
+    // Uploading Docker images into AWS ECR
+    stage('Docker push') {
+        steps {
+            sh "docker push ${NEXUS_URL}/${NEXUS_REPOSITORY}/${NEXUS_VERSION}:${get_commit_id()}"
+            // cleanup docker images in jenkins
+            sh "docker system prune --all --force"
+        }
+    }
+    }
+    // sending email notifications for success and failure
+    
+    // Slack notification for success and failure
+    
+}
+def get_commit_id(){
+    id = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+    return id
+}
